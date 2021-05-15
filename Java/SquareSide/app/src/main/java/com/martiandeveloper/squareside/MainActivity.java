@@ -4,16 +4,21 @@ import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private MyView myView;
+    private MyViewDefault myViewDefault;
 
-    private FrameLayout activityMainContainerFL;
+    private FrameLayout activityMainDefaultContainerFL, activityMainContainerFL;
     private EditText activityMainNumberET;
+
+    private float defaultSide, squareSide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +26,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myView = new MyView(this, 160F);
-
+        activityMainDefaultContainerFL = findViewById(R.id.activity_main_defaultContainerFL);
         activityMainContainerFL = findViewById(R.id.activity_main_containerFL);
         activityMainNumberET = findViewById(R.id.activity_main_numberET);
-
-        activityMainContainerFL.addView(myView);
 
         findViewById(R.id.activity_main_drawMBTN).setOnClickListener(v -> {
 
@@ -38,9 +40,28 @@ public class MainActivity extends AppCompatActivity {
 
                         ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                        activityMainContainerFL.removeView(myView);
-                        myView = new MyView(MainActivity.this, Float.parseFloat(activityMainNumberET.getText().toString()) * 160F);
-                        activityMainContainerFL.addView(myView);
+                        if(myViewDefault == null){
+                            defaultSide = Float.parseFloat(activityMainNumberET.getText().toString()) * 40F;
+
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                            params.height = (int) (defaultSide+32);
+                            activityMainDefaultContainerFL.setLayoutParams(params);
+
+                            myViewDefault = new MyViewDefault(MainActivity.this, defaultSide);
+                            activityMainDefaultContainerFL.addView(myViewDefault);
+                        }else{
+                            squareSide = Float.parseFloat(activityMainNumberET.getText().toString()) * defaultSide;
+
+                            if (myView != null) activityMainContainerFL.removeView(myView);
+
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                            params.height = (int) (squareSide+32);
+                            activityMainContainerFL.setLayoutParams(params);
+
+
+                            myView = new MyView(MainActivity.this, Float.parseFloat(activityMainNumberET.getText().toString()) * defaultSide);
+                            activityMainContainerFL.addView(myView);
+                        }
 
                     } else
                         Toast.makeText(MainActivity.this, "Please enter a number between 0.5 and 4", Toast.LENGTH_SHORT).show();

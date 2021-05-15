@@ -11,16 +11,16 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-public final class MyView extends View {
+public final class MyViewDefault extends View {
 
     private Paint paint;
     private float sideLength;
 
-    public MyView(@Nullable Context context) {
+    public MyViewDefault(@Nullable Context context) {
         super(context);
     }
 
-    public MyView(@Nullable Context context, float sideLength) {
+    public MyViewDefault(@Nullable Context context, float sideLength) {
         super(context);
 
         this.sideLength = sideLength;
@@ -34,7 +34,7 @@ public final class MyView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         @SuppressLint("DrawAllocation") Rect rect = new Rect(0, 0, (int) this.sideLength, (int) this.sideLength);
-        rect.offset((int) ((float) (this.getWidth() / 2) - this.sideLength / (float) 2), (int) ((float) (this.getHeight() / 2) - this.sideLength / (float) 2));
+        rect.offset((int) ((float) (this.getWidth() / 2) - this.sideLength / (float) 2),(int) ((float) (this.getHeight() / 2) - this.sideLength / (float) 2));
         canvas.drawRect(rect, paint);
     }
 
