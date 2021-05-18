@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout activityMainDefaultContainerFL, activityMainContainerFL;
     private EditText activityMainNumberET;
 
-    private float defaultSide, squareSide;
+    private float defaultSide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
                         ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                        if(myViewDefault == null){
+                        if (myViewDefault == null) {
                             defaultSide = Float.parseFloat(activityMainNumberET.getText().toString()) * 40F;
-
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                            params.height = (int) (defaultSide+32);
-                            activityMainDefaultContainerFL.setLayoutParams(params);
 
                             myViewDefault = new MyViewDefault(MainActivity.this, defaultSide);
                             activityMainDefaultContainerFL.addView(myViewDefault);
-                        }else{
-                            squareSide = Float.parseFloat(activityMainNumberET.getText().toString()) * defaultSide;
-
+                        } else {
                             if (myView != null) activityMainContainerFL.removeView(myView);
-
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                            params.height = (int) (squareSide+32);
-                            activityMainContainerFL.setLayoutParams(params);
-
 
                             myView = new MyView(MainActivity.this, Float.parseFloat(activityMainNumberET.getText().toString()) * defaultSide);
                             activityMainContainerFL.addView(myView);

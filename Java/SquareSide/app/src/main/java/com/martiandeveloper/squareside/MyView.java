@@ -28,7 +28,7 @@ public final class MyView extends View {
         paint = new Paint();
         paint.setStyle(Style.STROKE);
         paint.setStrokeWidth(4);
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.RED);
     }
 
     protected void onDraw(Canvas canvas) {
